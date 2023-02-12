@@ -1,2 +1,2 @@
 # ogredock
-This is a Docker gront-end built in GO
+This is a Docker front-end built in GO
