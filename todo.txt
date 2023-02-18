@@ -1,0 +1,14 @@
+// List of features to include in ogredock
+
+0) container view
+1) container creation, start, stop, run, destroy
+** clean up code and build out some unit tests
+
+2) bulk creation and destruction
+3) network configuration
+4) image selection
+5) container shell 
+
+
+< nice to haves >
+1) scripting interface
