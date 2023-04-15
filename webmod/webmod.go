@@ -42,6 +42,13 @@ func containerManagement (w http.ResponseWriter, r *http.Request){
 					fmt.Printf("Start Container failed")
 				}
 			}
+			if name != "" && net != "" && img != "" {
+				contId, err := contmod.CreateContainer(name, net, img, "");
+				err = contmod.StartContainer(contId)
+				if err != nil {
+					fmt.Printf("Start Containerfailed)")
+				}
+			}
 		} else if cmds[1] != "" {
 			for i := 0; i < len(selectedContainers); i++ {
 				err := contmod.StopContainer(selectedContainers[i])

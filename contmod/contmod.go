@@ -125,7 +125,14 @@ func CreateContainer(name string, net string, img string, ip string) (string, er
 		Image: img,
 	}
 
-	cont, err2 := cli.ContainerCreate(context.Background(), config, nil, nil, nil, name)
+	networkConfig := &network.NetworkingConfig{
+		EndpointsConfig: map[string]*network.EndpointSettings{
+			net: &network.EndpointSettings{
+			},
+		},
+	}
+
+	cont, err2 := cli.ContainerCreate(context.Background(), config, nil, networkConfig, nil, name)
 	if err2 != nil {
 		panic(err2)
 	}

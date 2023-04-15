@@ -47,16 +47,18 @@
 				<th>Image</th>
 			</tr>
 			{{ range . }}
+				{{ $netName := "empty" }}
 			<tr>
+				{{ range $key, $value := .NetworkSettings.Networks }}
+					{{ $netName = $key }}
+				{{ end }}
 				<td> <input type="checkbox" name= {{ index .ID }} >
 				<td> {{ index .Names 0 }} </td>
 				<td> {{ .State }} </td>
-				<td> {{ (index .NetworkSettings.Networks "bridge").MacAddress }} </td>
-				<td> {{ (index .NetworkSettings.Networks "bridge").IPAddress }} </td>
-				<td> {{ (index .NetworkSettings.Networks "bridge").Gateway }} </td>
-				{{ range $key, $value := .NetworkSettings.Networks }}
-				<td> {{ $key }} </td>
-				{{ end }}
+				<td> {{ (index .NetworkSettings.Networks $netName).MacAddress }} </td>
+				<td> {{ (index .NetworkSettings.Networks $netName).IPAddress }} </td>
+				<td> {{ (index .NetworkSettings.Networks $netName).Gateway }} </td>
+				<td> {{ $netName }} </td>
 				<td> {{ .Image }} </td>
 			</tr>
 			{{ end}}
