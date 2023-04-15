@@ -77,12 +77,42 @@ func GetContainers() []types.Container{
 		panic(err)
 	}
 
-	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{})
+	containers, err := cli.ContainerList(context.Background(), types.ContainerListOptions{All: true,})
 	if err != nil {
 		panic(err)
 	}
 
 	return containers
+}
+
+func StartContainer(contID string) error{
+	cli, err := client.NewClientWithOpts(client.FromEnv)
+	if err != nil {
+		panic(err)
+	}
+
+	err2 := cli.ContainerStart(context.Background(), contID, types.ContainerStartOptions{})
+	if err2 != nil{
+		panic(err2)
+	}
+
+	return err2
+}
+
+func StopContainer(contID string) error{
+	cli, err := client.NewClientWithOpts(client.FromEnv)
+	if err != nil {
+		panic(err)
+	}
+
+	timeout := 0
+	err2 := cli.ContainerStop(context.Background(), contID, container.StopOptions{Timeout: &timeout})
+	//err2 := cli.ContainerPause(context.Background(), contID)
+	if err2 != nil{
+		panic(err2)
+	}
+
+	return err2
 }
 
 func CreateContainer(name string, net string, img string, ip string) (string, error) {
@@ -103,16 +133,16 @@ func CreateContainer(name string, net string, img string, ip string) (string, er
 	return cont.ID, err2;
 }
 
-func RunContainer(contID string) error{
+func DestroyContainer(contID string) error{
 	cli, err := client.NewClientWithOpts(client.FromEnv)
 	if err != nil {
 		panic(err)
 	}
 
-	err2 := cli.ContainerStart(context.Background(), contID, types.ContainerStartOptions{})
-	if err2 != nil{
+	err2 := cli.ContainerRemove(context.Background(), contID, types.ContainerRemoveOptions{Force: true,})
+	if err2 != nil {
 		panic(err2)
 	}
 
-	return err;
+	return err2
 }

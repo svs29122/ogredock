@@ -37,15 +37,18 @@
 		<br>
 		<table name="ctable">
 			<tr>
+				<th> </th>
 				<th>Name</th>
 				<th>State</th>
 				<th>MacAddress</th>
 				<th>IPAddress</th>
 				<th>Gateway</th>
 				<th>Net</th>
+				<th>Image</th>
 			</tr>
 			{{ range . }}
 			<tr>
+				<td> <input type="checkbox" name= {{ index .ID }} >
 				<td> {{ index .Names 0 }} </td>
 				<td> {{ .State }} </td>
 				<td> {{ (index .NetworkSettings.Networks "bridge").MacAddress }} </td>
@@ -54,6 +57,7 @@
 				{{ range $key, $value := .NetworkSettings.Networks }}
 				<td> {{ $key }} </td>
 				{{ end }}
+				<td> {{ .Image }} </td>
 			</tr>
 			{{ end}}
 		</table>

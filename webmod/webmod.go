@@ -24,29 +24,43 @@ func containerManagement (w http.ResponseWriter, r *http.Request){
 		img := r.FormValue("Img")
 		cmds := []string{r.FormValue("start_button"), r.FormValue("stop_button"),r.FormValue("create_button"),r.FormValue("destroy_button")}
 
+		containers := contmod.GetContainers()
+		selectedContainers := []string{}
+		for _, container := range containers {
+			selected := r.FormValue(container.ID)
+			if selected != "" {
+				selectedContainers = append(selectedContainers, container.ID)
+			}
+		}
+
+		//fmt.Printf("%s %s %s %s\n", cmds, name, net, img);
+
 		if cmds[0] != "" {
-			contId, err := contmod.CreateContainer(name, net, img, "");
-			if err != nil {
-				fmt.Printf("Create Container failed")
-			} else {
-				err = contmod.RunContainer(contId)
+			for i := 0; i < len(selectedContainers); i++ {
+				err := contmod.StartContainer(selectedContainers[i])
 				if err != nil {
-					fmt.Printf("Run Container failed")
-				} else {
-						fmt.Printf("%s %s %s %s\n", cmds[0], name, net, img);
+					fmt.Printf("Start Container failed")
 				}
 			}
 		} else if cmds[1] != "" {
-			fmt.Printf("%s %s %s %s\n", cmds[0], name, net, img);
+			for i := 0; i < len(selectedContainers); i++ {
+				err := contmod.StopContainer(selectedContainers[i])
+				if err != nil {
+					fmt.Printf("Stop Container failed")
+				}
+			}
 		} else if cmds[2] != "" {
 			_, err := contmod.CreateContainer(name, net, img, "");
 			if err != nil {
 				fmt.Printf("Create Container failed")
-			} else {
-				fmt.Printf("%s %s %s %s\n", cmds[0], name, net, img);
 			}
 		} else if cmds[3] != "" {
-			fmt.Printf("%s %s %s %s\n", cmds[0], name, net, img);
+			for i := 0; i < len(selectedContainers); i++ {
+				err := contmod.DestroyContainer(selectedContainers[i])
+				if err != nil {
+					fmt.Printf("Destroy Container failed")
+				}
+			}
 		}
 	}
 
