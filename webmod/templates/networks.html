@@ -53,6 +53,9 @@
 				</tr>
 		</table>
 		<table name="ntable">
+			<th> </th>
+			<th> Name </th>
+			<th> Driver </th>
 			{{ range . }}
 			<tr>
 				<td> <input type="checkbox" name= {{ index .ID }} >
@@ -61,6 +64,7 @@
 			</tr>
 			{{ end }}
 		</table>	
+		<form>
 	</body>
    <style>
 		input[type="submit"] {
