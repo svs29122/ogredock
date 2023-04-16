@@ -2,9 +2,74 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<title>Bulk Generation</title>
+		<title>Container Generation</title>
 	</head>
 	<body>
-		<h1> {{ . }} </h1>
+		<form action="/cgv" method ="post">
+			<table>
+				<tr>
+					<td>
+						<label> Base-Name </label>
+						<input type="text" name="BName" size=10em>
+					</td>
+					<td>
+						<label> Network </label>
+						<input type="text" name="Net" size=10em>
+					</td>
+					<td>
+						<label> Image </label>
+						<input type="text" name="Img"  size=10em>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label> Range </label>
+						<input type="text" name="RLow" size=2em>
+						...
+						<input type="text" name="RHigh" size=2em>
+					</td>
+					<td>
+						<input type="submit" name="generate_button" value="Generate">
+						<input type="submit" name="terminate_button" value="Terminate">
+					</td>
+				</tr>
+			</table>
+		<br>
+		<table name="ctable2">
+			<tr>
+				<th>Name</th>
+				<th>State</th>
+				<th>MacAddress</th>
+				<th>IPAddress</th>
+				<th>Gateway</th>
+				<th>Net</th>
+				<th>Image</th>
+			</tr>
+			{{ range . }}
+				{{ $netName := "empty" }}
+			<tr>
+				{{ range $key, $value := .NetworkSettings.Networks }}
+					{{ $netName = $key }}
+				{{ end }}
+				<td> {{ index .Names 0 }} </td>
+				<td> {{ .State }} </td>
+				<td> {{ (index .NetworkSettings.Networks $netName).MacAddress }} </td>
+				<td> {{ (index .NetworkSettings.Networks $netName).IPAddress }} </td>
+				<td> {{ (index .NetworkSettings.Networks $netName).Gateway }} </td>
+				<td> {{ $netName }} </td>
+				<td> {{ .Image }} </td>
+			</tr>
+			{{ end}}
+		</table>
+		</form>
 	</body>
+ 	<style>
+		input[type="submit"] {
+ 		 	margin: 1em;
+	   }
+		td, th {
+      	padding-left: 2em;
+      	text-align: right;
+     }
+  </style>
 </html>
