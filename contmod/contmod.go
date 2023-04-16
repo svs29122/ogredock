@@ -167,3 +167,48 @@ func GetNetworks() []types.NetworkResource {
 
 	return networks
 }
+
+func CreateNetwork(name, pif, drv, ipr, sn, gw  string) error {
+	cli, err := client.NewClientWithOpts(client.FromEnv)
+	if err != nil {
+		panic(err)
+	}
+
+	netOptions := types.NetworkCreate {
+		CheckDuplicate: true,
+		Driver: drv,
+		IPAM: &network.IPAM {
+			Config: []network.IPAMConfig {
+				0: network.IPAMConfig {
+					Subnet: sn,
+					IPRange: ipr,
+					Gateway: gw,
+				},
+			},
+		},
+		Options: map[string]string {
+			"parent": pif,
+		},
+	}
+
+	_, err2 := cli.NetworkCreate(context.Background(), name, netOptions)
+	if err2 != nil {
+		panic(err2)
+	}
+
+	return err2
+}
+
+func DestroyNetwork(netId string) error {
+	cli, err := client.NewClientWithOpts(client.FromEnv)
+	if err != nil {
+		panic(err)
+	}
+
+	err2 := cli.NetworkRemove(context.Background(), netId)
+	if err2 != nil {
+		panic(err)
+	}
+
+	return err2
+}

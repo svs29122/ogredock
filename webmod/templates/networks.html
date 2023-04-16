@@ -8,6 +8,19 @@
 		<form action="/nmv" method="post">
 			<table>
 				<tr>
+            	<td>
+            		<label> Name </label>
+               	<input type="text" name="Name" size=10em>
+            	</td>
+            	<td>
+            		<label> Parent-If </label>
+               	<input type="text" name="ParentIF" size=10em>
+            	<td>
+            		<label> Driver </label>
+               	<input type="text" name="Driver" size=10em>
+            	</td>
+				</tr>
+				<tr>
             	</td>
             	<td>
             		<label> Ip-Range </label>
@@ -19,24 +32,17 @@
             	</td>
             	<td>
             		<label> Gatway </label>
-               	<input type="text" name="Getway" size=10em>
+               	<input type="text" name="Gateway" size=10em>
             	</td>
 				</tr>
 				<tr>
-            	<td>
-            		<label> Parent-If </label>
-               	<input type="text" name="ParentIF" size=10em>
-            	<td>
-            		<label> Driver </label>
-               	<input type="text" name="Driver" size=10em>
-            	</td>
 					<td>
-						<input type="submit" name="create_button" value="Create">
+						<input type="submit" name="create_button" value="Create Container Network">
 					</td>
 				</tr>
 			</table>
 		<br>
-		<table id="nt" name="ntable">
+		<table>
 				<tr>
 					<td>
 						<input type="submit" name="destroy_button" value="Destroy">
@@ -45,6 +51,8 @@
 						<input type="submit" name="inspect_button" value="Inspect">
 					</td>
 				</tr>
+		</table>
+		<table name="ntable">
 			{{ range . }}
 			<tr>
 				<td> <input type="checkbox" name= {{ index .ID }} >
@@ -60,7 +68,7 @@
 		}
 		td, th {
 			padding-left: 1em;
-			text-align: left;
+			text-align: right;
 		}
 	</style>
 </html>

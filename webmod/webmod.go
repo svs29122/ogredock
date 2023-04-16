@@ -79,6 +79,48 @@ func containerManagement (w http.ResponseWriter, r *http.Request){
 
 
 func networkManagement (w http.ResponseWriter, r *http.Request){
+	if r.Method == http.MethodPost {
+		r.ParseForm();
+
+		name := r.FormValue("Name")
+		pif := r.FormValue("ParentIF")
+		drv := r.FormValue("Driver")
+		ipr := r.FormValue("IPRange")
+		sn := r.FormValue("Subnet")
+		gw := r.FormValue("Gateway")
+		cmds := []string{r.FormValue("create_button"),
+							r.FormValue("destroy_button"),
+							r.FormValue("inspect_button")}
+
+		networks := contmod.GetNetworks()
+		selectedNetworks := []string{}
+		for _, network := range networks {
+			selected := r.FormValue(network.ID)
+			if selected != "" {
+				selectedNetworks = append(selectedNetworks, network.ID)
+			}
+		}
+
+		//fmt.Printf("%s\n %s %s %s\n %s %s %s\n", cmds, name, pif, drv, ipr, sn, gw)
+
+		if cmds[0] != "" {
+			contmod.CreateNetwork(name, pif, drv, ipr, sn, gw)
+		} else if cmds[1] != "" {
+			for i := 0; i < len(selectedNetworks); i++ {
+				err := contmod.DestroyNetwork(selectedNetworks[i])
+				if err != nil {
+					fmt.Printf("Destroy Network Failed\n")
+				}
+			}
+		} else if cmds[2] != "" {
+			for i := 0; i < len(selectedNetworks); i++ {
+				//err := contmod.DestroyNetwork(selectedNetworks[i])
+				//if err != nil {
+					fmt.Printf("Inspect Network Failed\n")
+				//}
+			}
+		}
+	}
 
 	networks := contmod.GetNetworks()
 
