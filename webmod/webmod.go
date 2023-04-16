@@ -77,6 +77,21 @@ func containerManagement (w http.ResponseWriter, r *http.Request){
 	t.Execute(w, containers)
 }
 
+
+func networkManagement (w http.ResponseWriter, r *http.Request){
+
+	networks := contmod.GetNetworks()
+
+	t, _ := template.ParseFiles("./webmod/templates/networks.html")
+	t.Execute(w, networks)
+}
+
+func bulkGeneration (w http.ResponseWriter, r *http.Request){
+	t, _ := template.ParseFiles("./webmod/templates/generate.html")
+	t.Execute(w, "Bulk Generation")
+
+}
+
 func StartServer() {
 
 	fmt.Printf("starting server...\n")
@@ -87,6 +102,8 @@ func StartServer() {
 
 	http.HandleFunc("/", home);
 	http.HandleFunc("/cmv", containerManagement);
+	http.HandleFunc("/nmv", networkManagement);
+	http.HandleFunc("/bgv", bulkGeneration);
 
 	server.ListenAndServe()
 }

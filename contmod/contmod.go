@@ -153,3 +153,17 @@ func DestroyContainer(contID string) error{
 
 	return err2
 }
+
+func GetNetworks() []types.NetworkResource {
+	cli, err := client.NewClientWithOpts(client.FromEnv)
+	if err != nil {
+		panic(err)
+	}
+
+	networks, err2 := cli.NetworkList(context.Background(), types.NetworkListOptions{})
+	 if err2 != nil {
+		panic(err2)
+	}
+
+	return networks
+}
