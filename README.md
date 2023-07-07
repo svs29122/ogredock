@@ -15,5 +15,11 @@ The web server will start at your loopback address on port 8080. <br />
 Feel free to change this! Look in webmod/webmod.go! <br />
 
 ## Multi Window View
-
+Here is what the multi-view page looks like: <br />
+<br />
 ![Image](/docs/OgreDockView.png)
+
+These pages can also be accessed individually. 
+
+## Licensing
+Ogredock is licensed under the permissive MIT License. 
