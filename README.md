@@ -1,10 +1,10 @@
 # Ogredock
 This is a Docker front-end built in GO.
 
-It's designed to be super simple, easy to extend, and a viable alternative to the proprietary/paid Docker frontends out there. 
+It's designed to be super simple, easy to extend, and a viable alternative to the proprietary/paid Docker front-ends out there. 
 I use Docker for low-level Ethernet mac stuff, so one noticable thing that's missing is port configuration. You want it, add it! 
 
-This frontend uses the GO Docker API (located here: github.com/docker/docker) along with the GO net/http and html/template packages.
+This front-end uses the GO Docker API (located here: github.com/docker/docker) along with the GO net/http and html/template packages.
 
 ## Getting Started
 
