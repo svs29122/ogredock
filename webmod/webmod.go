@@ -9,9 +9,16 @@ import(
 	"ogredock/contmod"
 )
 
-func home (w http.ResponseWriter, r *http.Request){
+func index (w http.ResponseWriter, r *http.Request){
 	t, _ := template.ParseFiles("./webmod/templates/index.html")
 	t.Execute(w, "Welcome to")
+}
+
+func multiWindowView (w http.ResponseWriter, r *http.Request){
+
+	t, _ := template.ParseFiles("./webmod/templates/multiView.html")
+	t.Execute(w, nil)
+
 }
 
 func containerManagement (w http.ResponseWriter, r *http.Request){
@@ -222,10 +229,11 @@ func StartServer() {
 	fs := http.FileServer(http.Dir("webmod/public"))
 	http.Handle("/webmod/public/", http.StripPrefix("/webmod/public/", fs))
 
-	http.HandleFunc("/", home);
+	http.HandleFunc("/", index);
 	http.HandleFunc("/cmv", containerManagement);
 	http.HandleFunc("/nmv", networkManagement);
 	http.HandleFunc("/cgv", containerGeneration);
+	http.HandleFunc("/mwv", multiWindowView);
 
 	server.ListenAndServe()
 }
